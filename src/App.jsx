@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import { register } from "swiper/element";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import PostLogin from "./components/PostLogin";
 
 register();
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/timer" element={<Timer />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/postlogin" element={<PostLogin />} />
       </Routes>
     </BrowserRouter>
   );

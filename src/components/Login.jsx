@@ -1,7 +1,36 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleLogin() {
+    console.log(email, password);
+    try {
+      setLoading(true);
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password },
+        config
+      );
+
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      navigate("/postlogin");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
   return (
     <div className="w-full h-screen flex flex-col gap-4 font-inter px-6 py-16">
       <h1 className="text-4xl leading-10 font-semibold">
@@ -22,6 +51,8 @@ const Login = () => {
             name="email"
             placeholder="Enter Email"
             className="w-full border py-4 px-2 rounded-lg"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -34,6 +65,8 @@ const Login = () => {
             name="password"
             placeholder="Password"
             className="w-full border py-4 px-2 rounded-lg"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <a
@@ -43,7 +76,10 @@ const Login = () => {
           Forgot password?
         </a>
       </div>
-      <button className="bg-[#FE8C00] py-4 rounded-full relative top-[7%] text-white text-center font-semibold">
+      <button
+        className="bg-[#FE8C00] py-4 rounded-full relative top-[7%] text-white text-center font-semibold"
+        onClick={handleLogin}
+      >
         Sign in
       </button>
       <div className="w-full h-full relative flex flex-col gap-2 justify-center items-center">
