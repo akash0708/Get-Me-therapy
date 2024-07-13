@@ -1,6 +1,7 @@
-import { ChevronLeftIcon, ChevronRightIcon, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import progress from "../assets/progress.png";
 
 const Carousel = ({ children: slides }) => {
   const navigate = useNavigate();
@@ -10,8 +11,6 @@ const Carousel = ({ children: slides }) => {
   }
   const [curr, setCurr] = useState(0);
 
-  const prev = () =>
-    setCurr((curr) => (curr === 0 ? slides.length - 1 : curr - 1));
   const next = () =>
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
   return (
@@ -23,18 +22,31 @@ const Carousel = ({ children: slides }) => {
         {slides}
       </div>
       <div className="absolute inset-0 flex items-center justify-between p-4">
-        <button
-          onClick={handleSkip}
-          className="p-1 rounded-full shadow bg-white/80 text-gray-800 hover:bg-white"
-        >
-          <ChevronLeftIcon size={40} />
-        </button>
-        <button
-          onClick={next}
-          className="absolute text-white font-semibold bottom-8 right-8 flex flex-row gap-2 justify-center items-center"
-        >
-          Next <MoveRight color="white" strokeWidth={4} size={16} />
-        </button>
+        {curr !== slides.length - 1 && (
+          <>
+            <button
+              onClick={handleSkip}
+              className="absolute bottom-8 left-12 text-white font-semibold flex flex-row gap-2 justify-center items-center"
+            >
+              Skip
+            </button>
+
+            <button
+              onClick={next}
+              className="absolute text-white font-semibold bottom-8 right-8 flex flex-row gap-2 justify-center items-center"
+            >
+              Next <MoveRight color="white" strokeWidth={4} size={16} />
+            </button>
+          </>
+        )}
+        {curr === slides.length - 1 && (
+          <div
+            className="w-24 h-24 absolute bottom-4 left-[6.75rem]"
+            onClick={handleSkip}
+          >
+            <img src={progress} alt="" className="w-full h-full object-cover" />
+          </div>
+        )}
       </div>
 
       <div className="absolute bottom-[8.5rem] right-0 left-0">
@@ -44,7 +56,7 @@ const Carousel = ({ children: slides }) => {
               key={i}
               className={`
               transition-all w-6 h-[6px] bg-white rounded-md
-              ${curr === i ? "" : "bg-opacity-50"}
+              ${curr === i ? "" : "bg-[#C2C2C2]"}
             `}
             />
           ))}

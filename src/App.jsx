@@ -6,21 +6,44 @@ import { register } from "swiper/element";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PostLogin from "./components/PostLogin";
-import Carcomp from "./components/Carcomp";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 
 register();
 
 function App() {
+  useEffect(() => {
+    console.log(window.innerWidth);
+    if (window.innerWidth > 560) {
+      toast(
+        "For best experience, open in mobile view or use dev tools to simulate mobile view `(Ctrl + Shift + I)`. Choose iPhone 12 Pro for best experience.",
+        {
+          position: "top-right",
+          autoClose: 7000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        }
+      );
+    }
+  }, []);
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/timer" element={<Timer />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/postlogin" element={<PostLogin />} />
-        <Route path="/test" element={<Carcomp />} />
-      </Routes>
+      <div className="relative w-full h-screen sm:w-[24.375rem] sm:h-[52.75rem] mx-auto sm:py-2">
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/timer" element={<Timer />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/postlogin" element={<PostLogin />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }

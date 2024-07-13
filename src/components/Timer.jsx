@@ -2,7 +2,13 @@
 import { useState, useEffect } from "react";
 import "./Timer.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CirclePause, CirclePlay, RotateCcw, TimerReset } from "lucide-react";
+import {
+  CirclePause,
+  CirclePlay,
+  LogOut,
+  RotateCcw,
+  TimerReset,
+} from "lucide-react";
 import GenerateUrl from "./GenerateUrl";
 
 const Timer = () => {
@@ -85,6 +91,11 @@ const Timer = () => {
     transform: `rotate(${((3600 - (time % 3600)) / 3600) * 360 - 90}deg)`,
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/login");
+  };
+
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -96,14 +107,15 @@ const Timer = () => {
 
   return (
     <>
-      <div className="w-full h-fit overflow-hidden px-4 py-2 bg-[#FE8C00] flex flex-row items-center justify-between font-inter text-gray-700">
+      <div className="w-full h-fit sm:border overflow-hidden px-4 py-2 bg-[#FE8C00] flex flex-row items-center justify-between font-inter text-gray-700">
         <div className="font-inter text-xl font-semibold p-1">
           <TimerReset size={48} />
         </div>
-        <div>
-          <div className="avatar font-semibold text-xl p-1">
+        <div className="flex flex-row justify-center items-center">
+          <div className="avatar font-semibold text-xl p-1 border-2 border-black">
             {username ? username.charAt(0).toUpperCase() : ""}
           </div>
+          <LogOut size={32} onClick={handleLogout} />
         </div>
       </div>
       <div className="clock-container w-full overflow-hidden h-fit flex flex-col items-center">

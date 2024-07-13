@@ -21,7 +21,7 @@ const PostLogin = () => {
   }
 
   return (
-    <main className="w-full h-screen flex flex-col-reverse bg-[url('https://res.cloudinary.com/dybvod0l2/image/upload/v1720670544/image_39_vit75q.png')] bg-no-repeat bg-cover">
+    <main className="w-full h-full border-0 sm:border flex flex-col-reverse bg-[url('https://res.cloudinary.com/dybvod0l2/image/upload/v1720670544/image_39_vit75q.png')] bg-no-repeat bg-cover">
       <div className="bg-white w-full h-1/2 px-8 flex flex-col justify-center items-center gap-8 rounded-tr-3xl rounded-tl-3xl">
         <div className="w-1/2 h-fit">
           <img

@@ -1,5 +1,7 @@
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -7,6 +9,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      navigate("/postlogin");
+    }
+  }, []);
 
   async function handleLogin() {
     console.log(email, password);
@@ -31,8 +40,24 @@ const Login = () => {
       setLoading(false);
     }
   }
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      const userInfo = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+      );
+
+      console.log(userInfo);
+      // create a user in the database by extracting the email and username from the userInfo
+      // then save the user in the local storage from the response returned from the server
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+  });
+
   return (
-    <div className="w-full h-screen flex flex-col gap-4 font-inter px-6 py-16">
+    <div className="w-full h-full flex flex-col gap-4 font-inter px-6 py-16 border-0 sm:border">
       <h1 className="text-4xl leading-10 font-semibold">
         Login to your account.
       </h1>
@@ -77,21 +102,25 @@ const Login = () => {
         </a>
       </div>
       <button
-        className="bg-[#FE8C00] py-4 rounded-full relative top-[7%] text-white text-center font-semibold"
+        className="bg-[#FE8C00] py-4 rounded-full relative top-[7%] text-white text-center font-semibold z-10"
         onClick={handleLogin}
+        disabled={loading}
       >
-        Sign in
+        {loading ? "Signing in..." : "Sign in"}
       </button>
       <div className="w-full h-full relative flex flex-col gap-2 justify-center items-center">
         <hr className="h-[1px] relative border-0 bg-[#878787] w-full" />
         <p className="text-[#878787] relative -top-5 bg-white px-6 font-medium">
           Or sign in with
         </p>
-        <button className="w-12 h-12 rounded-full border border-[#D6D6D6] p-2">
+        <button
+          className="w-12 h-12 rounded-full border border-[#D6D6D6] p-2"
+          onClick={() => googleLogin()}
+        >
           <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
         </button>
         <p className="text-[#101010] font-medium relative mt-4">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link to="/signup" className="text-[#FE8C00]">
             Register
           </Link>

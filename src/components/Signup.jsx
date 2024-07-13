@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
@@ -9,6 +9,13 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      navigate("/postlogin");
+    }
+  }, []);
 
   async function handleSignup() {
     try {
@@ -34,7 +41,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col gap-4 font-inter px-6 py-16">
+    <div className="w-full h-full flex flex-col gap-4 font-inter px-6 py-16 border-0 sm:border">
       <h1 className="text-4xl leading-10 font-semibold">
         Create your new account
       </h1>
@@ -101,11 +108,11 @@ const Signup = () => {
         </div>
       </div>
       <button
-        className="bg-[#FE8C00] py-4 rounded-full relative text-white text-center font-semibold"
+        className="bg-[#FE8C00] py-4 rounded-full relative text-white text-center font-semibold z-10"
         onClick={handleSignup}
         disabled={loading}
       >
-        Register
+        {loading ? "Registering" : "Register"}
       </button>
       <div className="w-full h-full relative top-2 flex flex-col gap-2 justify-center items-center">
         <hr className="h-[1px] relative border-0 bg-[#878787] w-full" />
