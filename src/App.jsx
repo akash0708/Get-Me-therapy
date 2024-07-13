@@ -6,6 +6,7 @@ import { register } from "swiper/element";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import PostLogin from "./components/PostLogin";
+import Carcomp from "./components/Carcomp";
 
 register();
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/postlogin" element={<PostLogin />} />
+        <Route path="/test" element={<Carcomp />} />
       </Routes>
     </BrowserRouter>
   );
