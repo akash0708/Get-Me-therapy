@@ -57,11 +57,7 @@ const Quotes = () => {
     };
   }, [category, apiKey]);
 
-  return (
-    <>
-      <ToastContainer />
-    </>
-  );
+  return <></>;
 };
 
 export default Quotes;
