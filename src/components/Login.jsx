@@ -18,7 +18,6 @@ const Login = () => {
   }, []);
 
   async function handleLogin() {
-    console.log(email, password);
     try {
       setLoading(true);
       const config = {
@@ -44,13 +43,11 @@ const Login = () => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
       );
 
-      console.log(userInfo.data.name, userInfo.data.email);
       // create a user in the database by extracting the email and username from the userInfo
       try {
         const config = {

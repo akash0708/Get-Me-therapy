@@ -37,7 +37,7 @@ const Signup = () => {
         { email, name, password },
         config
       );
-      console.log(data);
+
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate("/postlogin");
@@ -50,13 +50,11 @@ const Signup = () => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
       const userInfo = await axios.get(
         "https://www.googleapis.com/oauth2/v3/userinfo",
         { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
       );
 
-      console.log(userInfo.data.name, userInfo.data.email);
       // create a user in the database by extracting the email and username from the userInfo
       try {
         const config = {
