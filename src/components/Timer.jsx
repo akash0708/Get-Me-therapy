@@ -85,6 +85,7 @@ const Timer = () => {
     setHours(2);
     setMinutes(0);
     setSeconds(0);
+    setSpeed(1);
     setTime(hours * 3600 + minutes * 60 + seconds);
   };
 
