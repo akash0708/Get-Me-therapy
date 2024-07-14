@@ -18,6 +18,10 @@ const Login = () => {
   }, []);
 
   async function handleLogin() {
+    if (!email || !password) {
+      toast.error("Please fill in all the fields");
+      return;
+    }
     try {
       setLoading(true);
       const config = {
@@ -36,7 +40,7 @@ const Login = () => {
       navigate("/postlogin");
     } catch (error) {
       toast.error(error.response.data.error);
-      console.log(error.response.data.error);
+      console.log(error);
       setLoading(false);
     }
   }

@@ -21,6 +21,10 @@ const Signup = () => {
   }, []);
 
   async function handleSignup() {
+    if (!email || !name || !password) {
+      toast.error("Please fill in all the fields");
+      return;
+    }
     if (!isChecked) {
       toast.error("Please agree to the terms and conditions");
       return;

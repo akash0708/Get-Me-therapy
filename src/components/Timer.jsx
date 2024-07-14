@@ -82,6 +82,7 @@ const Timer = () => {
   const handleReset = () => {
     setIsRunning(false);
     setHasStarted(false);
+    localStorage.removeItem("pendingTimerParams");
     setHours(2);
     setMinutes(0);
     setSeconds(0);
