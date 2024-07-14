@@ -11,10 +11,12 @@ const Carousel = ({ children: slides }) => {
   }
   const [curr, setCurr] = useState(0);
 
-  const next = () =>
+  const next = () => {
     setCurr((curr) => (curr === slides.length - 1 ? 0 : curr + 1));
+    console.log(curr);
+  };
   return (
-    <div className="flex justify-between items-center overflow-hidden relative bg-[#FE8C00] w-[80%] h-1/2 rounded-[48px] p-7">
+    <div className="flex justify-between items-center overflow-hidden relative bg-[#FE8C00] w-[80%] h-1/2 sm:h-3/5 rounded-[48px] p-7">
       <div
         className="flex gap-16 px-6 transition-transform ease-out duration-500 w-full h-full"
         style={{ transform: `translateX(-${curr * 101}%)` }}
@@ -55,8 +57,8 @@ const Carousel = ({ children: slides }) => {
             <div
               key={i}
               className={`
-              transition-all w-6 h-[6px] bg-white rounded-md
-              ${curr === i ? "" : "bg-[#C2C2C2]"}
+              transition-all w-6 h-[6px] rounded-md
+              ${curr === i ? "bg-white" : "bg-[#adadad]"}
             `}
             />
           ))}

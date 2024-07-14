@@ -10,6 +10,7 @@ import {
   TimerReset,
 } from "lucide-react";
 import GenerateUrl from "./GenerateUrl";
+import Quotes from "./Quotes";
 
 const Timer = () => {
   const navigate = useNavigate();
@@ -171,6 +172,7 @@ const Timer = () => {
         </div>
         <GenerateUrl time={time} speed={speed} />
       </div>
+      <Quotes />
     </>
   );
 };

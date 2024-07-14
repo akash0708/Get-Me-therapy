@@ -1,8 +1,8 @@
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Login = () => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${import.meta.env.VITE_BACKEND_URL}/login`,
         { email, password },
         config
       );
@@ -36,7 +36,8 @@ const Login = () => {
       setLoading(false);
       navigate("/postlogin");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.error);
+      console.log(error.response.data.error);
       setLoading(false);
     }
   }
@@ -49,8 +50,26 @@ const Login = () => {
         { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
       );
 
-      console.log(userInfo);
+      console.log(userInfo.data.name, userInfo.data.email);
       // create a user in the database by extracting the email and username from the userInfo
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/glogin`,
+          { email: userInfo.data.email, name: userInfo.data.name },
+          config
+        );
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate("/postlogin");
+      } catch (error) {
+        console.log(error);
+      }
+
       // then save the user in the local storage from the response returned from the server
     },
     onError: (errorResponse) => console.log(errorResponse),

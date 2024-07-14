@@ -9,6 +9,7 @@ import PostLogin from "./components/PostLogin";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
+import Quotes from "./components/Quotes";
 
 register();
 
@@ -34,7 +35,7 @@ function App() {
   }, []);
   return (
     <BrowserRouter>
-      <div className="relative w-full h-screen sm:w-[24.375rem] sm:h-[52.75rem] mx-auto sm:py-2">
+      <div className="relative w-full h-screen sm:w-[24.375rem] sm:h-[54rem] mx-auto sm:py-2">
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -42,6 +43,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/postlogin" element={<PostLogin />} />
+          <Route path="/quotes" element={<Quotes />} />
         </Routes>
       </div>
     </BrowserRouter>

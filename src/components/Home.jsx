@@ -1,6 +1,16 @@
+import { useEffect } from "react";
 import Carousel from "./Carousel";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      navigate("/postlogin");
+    }
+  }, []);
+
   const slides = [
     "https://res.cloudinary.com/dybvod0l2/image/upload/v1720670544/image_39_vit75q.png",
     "https://res.cloudinary.com/dybvod0l2/image/upload/v1720670544/image_39_vit75q.png",

@@ -1,13 +1,16 @@
 // eslint-disable-next-line no-unused-vars
+import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -18,6 +21,10 @@ const Signup = () => {
   }, []);
 
   async function handleSignup() {
+    if (!isChecked) {
+      toast.error("Please agree to the terms and conditions");
+      return;
+    }
     try {
       setLoading(true);
       const config = {
@@ -26,7 +33,7 @@ const Signup = () => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:5000/api/auth/signup",
+        `${import.meta.env.VITE_BACKEND_URL}/signup`,
         { email, name, password },
         config
       );
@@ -35,10 +42,44 @@ const Signup = () => {
       setLoading(false);
       navigate("/postlogin");
     } catch (error) {
-      console.log(error.response.data);
+      toast.error(error.response.data.error);
+      console.log(error.response.data.error);
       setLoading(false);
     }
   }
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log(tokenResponse);
+      const userInfo = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
+      );
+
+      console.log(userInfo.data.name, userInfo.data.email);
+      // create a user in the database by extracting the email and username from the userInfo
+      try {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/glogin`,
+          { email: userInfo.data.email, name: userInfo.data.name },
+          config
+        );
+
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate("/postlogin");
+      } catch (error) {
+        console.log(error);
+      }
+
+      // then save the user in the local storage from the response returned from the server
+    },
+    onError: (errorResponse) => console.log(errorResponse),
+  });
 
   return (
     <div className="w-full h-full flex flex-col gap-4 font-inter px-6 py-16 border-0 sm:border">
@@ -98,7 +139,9 @@ const Signup = () => {
             type="checkbox"
             id="terms"
             name="terms"
-            className="mr-1 w-[15px] h-[15px] checked:bg-[#FE8C00] text-[#FE8C00] bg-[#FE8C00]"
+            className="mr-1 w-[15px] h-[15px]"
+            checked={isChecked}
+            onChange={(e) => setIsChecked(e.target.checked)}
           />
           <label htmlFor="terms" className="text-[#101010] font-medium">
             I Agree with{" "}
@@ -119,7 +162,10 @@ const Signup = () => {
         <p className="text-[#878787] relative -top-5 bg-white px-6 font-medium">
           Or register with
         </p>
-        <button className="w-12 h-12 rounded-full border border-[#D6D6D6] p-2">
+        <button
+          className="w-12 h-12 rounded-full border border-[#D6D6D6] p-2"
+          onClick={googleLogin}
+        >
           <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
         </button>
         <p className="text-[#101010] font-medium relative mt-4">
