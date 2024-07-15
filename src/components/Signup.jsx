@@ -133,7 +133,7 @@ const Signup = () => {
             id="password"
             name="password"
             placeholder="Password"
-            className="w-full border py-4 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
+            className="w-full border py-4 pl-2 pr-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
