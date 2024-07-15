@@ -112,13 +112,18 @@ const Timer = () => {
     <>
       <div className="w-full h-fit sm:border overflow-hidden px-4 py-2 bg-[#FE8C00] flex flex-row items-center justify-between font-inter text-gray-700">
         <div className="font-inter text-xl font-semibold p-1">
-          <TimerReset size={48} />
+          <TimerReset color="black" size={48} />
         </div>
         <div className="flex flex-row justify-center items-center">
           <div className="avatar font-semibold text-xl p-1 border-2 border-black">
             {username ? username.charAt(0).toUpperCase() : ""}
           </div>
-          <LogOut size={32} onClick={handleLogout} />
+          <LogOut
+            size={32}
+            color="black"
+            onClick={handleLogout}
+            className="cursor-pointer"
+          />
         </div>
       </div>
       <div className="clock-container w-full overflow-hidden h-fit flex flex-col items-center">

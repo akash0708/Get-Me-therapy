@@ -39,7 +39,7 @@ const GenerateUrl = ({ time, speed }) => {
     <div className="w-full flex flex-col mt-6 gap-6 justify-center items-center">
       <button
         onClick={handleGenerateLink}
-        className="w-[80%] px-4 py-2 rounded-full bg-[#FE8C00] text-white font-semibold"
+        className="w-[80%] px-4 py-2 rounded-full bg-[#FE8C00] hover:bg-[#fe8c00bf] transition duration-200 text-white font-semibold"
       >
         Generate URL
       </button>

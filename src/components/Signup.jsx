@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -153,11 +154,11 @@ const Signup = () => {
         </div>
       </div>
       <button
-        className="bg-[#FE8C00] py-4 rounded-full relative text-white text-center font-semibold z-10"
+        className="bg-[#FE8C00] hover:bg-[#fe8c00bf] transition duration-200 py-4 rounded-full relative text-white text-center font-semibold z-10"
         onClick={handleSignup}
         disabled={loading}
       >
-        {loading ? "Registering" : "Register"}
+        {loading ? <Spinner /> : "Register"}
       </button>
       <div className="w-full h-full relative top-2 flex flex-col gap-2 justify-center items-center">
         <hr className="h-[1px] relative border-0 bg-[#878787] w-full" />

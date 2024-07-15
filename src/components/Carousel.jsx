@@ -46,7 +46,11 @@ const Carousel = ({ children: slides }) => {
             className="w-24 h-24 absolute bottom-4 left-[6.75rem]"
             onClick={handleSkip}
           >
-            <img src={progress} alt="" className="w-full h-full object-cover" />
+            <img
+              src={progress}
+              alt=""
+              className="w-full h-full object-cover animate-pulse"
+            />
           </div>
         )}
       </div>

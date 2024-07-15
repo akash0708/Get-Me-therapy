@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "./Spinner";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const Login = () => {
 
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
+      toast.success("Logged in successfully");
       navigate("/postlogin");
     } catch (error) {
       toast.error(error.response.data.error);
@@ -122,11 +124,11 @@ const Login = () => {
         </a>
       </div>
       <button
-        className="bg-[#FE8C00] py-4 rounded-full relative top-[7%] text-white text-center font-semibold z-10"
+        className="bg-[#FE8C00] hover:bg-[#fe8c00bf] transition duration-200 py-4 rounded-full relative top-[7%] text-white text-center font-semibold z-10"
         onClick={handleLogin}
         disabled={loading}
       >
-        {loading ? "Signing in..." : "Sign in"}
+        {loading ? <Spinner /> : "Sign in"}
       </button>
       <div className="w-full h-full relative flex flex-col gap-2 justify-center items-center">
         <hr className="h-[1px] relative border-0 bg-[#878787] w-full" />
