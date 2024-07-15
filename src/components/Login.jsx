@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -97,24 +99,37 @@ const Login = () => {
             id="email"
             name="email"
             placeholder="Enter Email"
-            className="w-full border py-4 px-2 rounded-lg"
+            className="w-full border py-4 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="relative flex flex-col gap-2">
           <label htmlFor="password" className="text-[#101010] font-medium">
             Password
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             name="password"
             placeholder="Password"
-            className="w-full border py-4 px-2 rounded-lg"
+            className="w-full border py-4 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {showPassword ? (
+            <Eye
+              className="absolute right-2 top-[50px]"
+              size={24}
+              onClick={() => setShowPassword(!showPassword)}
+            />
+          ) : (
+            <EyeOff
+              className="absolute right-2 top-[50px]"
+              size={24}
+              onClick={() => setShowPassword(!showPassword)}
+            />
+          )}
         </div>
         <a
           href="#"

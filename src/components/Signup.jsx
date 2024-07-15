@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
+import { Eye, EyeOff } from "lucide-react";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -103,7 +105,7 @@ const Signup = () => {
             id="email"
             name="email"
             placeholder="Enter Email"
-            className="w-full border py-4 px-2 rounded-lg"
+            className="w-full border py-4 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -117,24 +119,37 @@ const Signup = () => {
             id="username"
             name="username"
             placeholder="Enter Username"
-            className="w-full border py-4 px-2 rounded-lg"
+            className="w-full border py-4 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="relative flex flex-col gap-2">
           <label htmlFor="password" className="text-[#101010] font-medium">
             Password
           </label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             name="password"
             placeholder="Password"
-            className="w-full border py-4 px-2 rounded-lg"
+            className="w-full border py-4 px-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FE8C00] focus:border-transparent"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          {showPassword ? (
+            <Eye
+              className="absolute right-2 top-[50px]"
+              size={24}
+              onClick={() => setShowPassword(!showPassword)}
+            />
+          ) : (
+            <EyeOff
+              className="absolute right-2 top-[50px]"
+              size={24}
+              onClick={() => setShowPassword(!showPassword)}
+            />
+          )}
         </div>
 
         <div>
@@ -142,7 +157,7 @@ const Signup = () => {
             type="checkbox"
             id="terms"
             name="terms"
-            className="mr-1 w-[15px] h-[15px]"
+            className="custom-checkbox mr-1 w-[15px] h-[15px]"
             checked={isChecked}
             onChange={(e) => setIsChecked(e.target.checked)}
           />
